@@ -2,9 +2,21 @@ sudo: required
 services:
   - docker
 
-
 before_install:
   - docker build -t junfinent/docker-react -f dev.Dockerfile .
 
 script:
   - docker run junfinent/docker-react npm run test -- --coverage
+
+deploy: 
+  provider: elasticbeanstalk
+  region: "ap-northeast-2"
+  app: "docker-react"
+  env: "DockerReact-env-1"
+  bucket_name: "elasticbeanstalk-ap-northeast-2-515295794035"
+  bucket_path: "docker-react"
+  on:
+    branch: master
+  access_key_id: $AWS_USER_ACCESS
+  access_secret_key:
+    secure: "$AWS_USER_SECRET"
