@@ -1,0 +1,10 @@
+sudo: required
+services:
+  - docker
+
+
+before_install:
+  - docker build -t junfinent/docker-react -f dev.Dockerfile .
+
+script:
+  - docker run junfinent/docker-react npm run test -- --coverage
